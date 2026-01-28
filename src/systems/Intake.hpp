@@ -25,12 +25,12 @@ struct Intake {
         }
 
         void intake() {
-            MotorGroup it_mtr = MotorGroup({it1_p});
+            MotorGroup it_mtr = MotorGroup({it1_p,it3_p});
             it_mtr.move(127);
         }
 
         void outTake() {
-            MotorGroup it_mtr = MotorGroup({-it1_p, it2_p});
+            MotorGroup it_mtr = MotorGroup({it1_p, it3_p});
             it_mtr.move(-127);
         }
 

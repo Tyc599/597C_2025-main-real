@@ -5,6 +5,7 @@
 #include "systems/Intake.hpp"
 #include "systems/MobileClamp.hpp"
 #include "systems/MatchLoad.hpp"
+#include "systems/ColorSort.hpp"
 
 //I love you raul
 using namespace pros;
@@ -164,10 +165,13 @@ void autonomous() {
 	delay(500);
 	dt.moveHorizontal(20,50);
 	delay(500);
-	dt.moveHorizontal(-5.25,50);
+	dt.moveHorizontal(-3.65,50);
 	dt.turnAngle(-96);
-	dt.moveHorizontal(-13,60);
+	dt.moveHorizontal(-14.25,60);
 	it.score();
+	delay(2000);
+	dt.moveHorizontal(40,60);
+
 	/*dt.turnAngle(90);
 	dt.moveHorizontal(-6.5,50);
 	//it.score();
@@ -201,10 +205,44 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
+#ifdef COLOR_SORT_DEMO
+	// Demo mode: print optical + vision certainties and combined result.
+	// Defaults: change these with -D or by editing the macros below.
+#ifndef OPTICAL_PORT
+#define OPTICAL_PORT 1
+#endif
+#ifndef VISION_PORT
+#define VISION_PORT 1
+#endif
+#ifndef EXAMPLE_SIG
+#define EXAMPLE_SIG 1
+#endif
+#ifndef OTHER_SIG
+#define OTHER_SIG 2
+#endif
+
+	// Create Vision and color-code once
+	pros::Vision vision_sensor(VISION_PORT);
+	pros::vision_color_code_t code1 = vision_sensor.create_color_code(EXAMPLE_SIG, OTHER_SIG);
+
+	while (true) {
+		auto optCert = ColorSort::analyzeOptical(OPTICAL_PORT);
+		auto visCert = ColorSort::analyzeVisionBySize(VISION_PORT, 1000, code1, 0);
+		auto combined = ColorSort::mergeCertainties(optCert, visCert, 0.5);
+
+		printf("OPT pres=%.2f r=%.2f b=%.2f | VIS pres=%.2f r=%.2f b=%.2f | COMB p=%.2f r=%.2f b=%.2f\n",
+			   optCert.presence, optCert.red, optCert.blue,
+			   visCert.presence, visCert.red, visCert.blue,
+			   combined.presence, combined.red, combined.blue);
+
+		delay(200);
+	}
+#endif
 	bool prcsM = false;
 	int prcsET = 0;
 	bool clampState = false;
 	bool loadState = false;
+	bool wheelLocked = false;
 
 	while (true) {
 		// Set precision mode (dont repeat until half a second)
@@ -215,7 +253,15 @@ void opcontrol() {
 			rX = (prcsM) ? master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X)/2 : master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X);
 		}
 
-		dt.arcadeDrive(lY, rX);
+			// Toggle wheel lock with Y (new press) BEFORE processing drive inputs
+			if (master.get_digital_new_press(E_CONTROLLER_DIGITAL_Y)) {
+				wheelLocked = !wheelLocked;
+				dt.setWheelLock(wheelLocked);
+				printf("[Main] Wheel lock %s\n", wheelLocked ? "ENABLED" : "DISABLED");
+			}
+
+			// Send drive inputs (will be ignored by DriveTrain if wheels are locked)
+			dt.arcadeDrive(lY, rX);
 
 		if (master.get_digital_new_press(E_CONTROLLER_DIGITAL_A)) {
 			clampState = !clampState;
@@ -234,7 +280,7 @@ void opcontrol() {
         } else if (master.get_digital(E_CONTROLLER_DIGITAL_R2)) {
             it.score();
 		} else if (master.get_digital(E_CONTROLLER_DIGITAL_L2)) {
-            it.middle();
+            it.outTake();
         } else {
 			it.stop();
 		}

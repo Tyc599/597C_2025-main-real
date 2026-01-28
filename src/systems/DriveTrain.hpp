@@ -35,6 +35,8 @@ class DriveTrain {
     MotorGroup right_g = MotorGroup({fr_p, -mr_p, br_p});
 
     PIDController pidController = PIDController(kP, kI, kD, integral_threshold); 
+    // When true, ignore tele-op drive inputs and hold wheel positions.
+    bool wheels_locked = false;
 
 
     std::function<void(void)> teleMove;
@@ -54,16 +56,37 @@ class DriveTrain {
     }
 
     inline void tankDrive(signed char leftY, signed char rightY){
+        if (wheels_locked) return;
         left_g.move(abs(leftY)<threshold ? 0 :leftY);
         right_g.move(abs(rightY)<threshold ? 0 :rightY);
     }
 
     inline void arcadeDrive(signed char leftY, signed char rightX) {
+        if (wheels_locked) return;
         leftY = abs(leftY)<threshold ? 0 : leftY;
         rightX = abs(rightX)<threshold ? 0 : rightX;
         left_g.move(leftY + rightX);
         right_g.move(leftY - rightX);
     }
+
+    // Lock or unlock the drivetrain wheels. When locked, drive inputs are ignored
+    // and motors are set to HOLD to resist movement.
+    inline void setWheelLock(bool lock) {
+        wheels_locked = lock;
+        if (wheels_locked) {
+            // Stop motion and hold
+            left_g.move_velocity(0);
+            right_g.move_velocity(0);
+            left_g.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+            right_g.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+        } else {
+            // Return to default behavior (coast). Caller can override if needed.
+            left_g.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+            right_g.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+        }
+    }
+
+    inline bool isWheelLocked() const { return wheels_locked; }
 
     //This code is from Darshaan Karthikeyan (597C)
     //Function allows for the forward and backward motion of the drivetrain based on the given inches
