@@ -230,6 +230,11 @@ class DriveTrain {
         left_g.move_absolute(ticks, 100);
     }
  
+    // Move horizontally a relative distance in inches using open-loop
+    // motor velocity. If the requested velocity magnitude is greater than
+    // `rampThreshold` (55), the motors will start at 55 (preserving sign)
+    // and linearly ramp to the requested velocity over ~500ms (20ms steps).
+    // This prevents a large immediate jump in commanded motor RPM.
     inline void moveHorizontal(double inches, int32_t velocity){
     // See comment above in the single-arg overload.
     double effDistancePerTick = distancePerTick / distancePerTickFactor;
@@ -243,9 +248,36 @@ class DriveTrain {
         left_g.tare_position();
         right_g.tare_position();
 
+        // If the requested velocity is small (<= ramp threshold) just command it
+        const int rampThreshold = 55; // starting velocity for ramping
+        int sign = (velocity >= 0) ? 1 : -1;
+        int absVel = std::abs(velocity);
 
+        // Initiate the position move using the requested velocity (so the
+        // motor controllers know the target). We'll override the runtime
+        // commanded velocity below if we need to ramp.
         left_g.move_relative(ticksToMove, velocity);
         right_g.move_relative(ticksToMove, velocity);
+
+        if (absVel > rampThreshold) {
+            // Ramp from rampThreshold up to absVel over rampMs milliseconds
+            const int rampMs = 500; // total ramp duration in ms
+            const int stepMs = 20;  // update step in ms (matches typical control loop)
+            const int steps = std::max(1, rampMs / stepMs);
+            const double velInc = static_cast<double>(absVel - rampThreshold) / steps;
+
+            // Start from the threshold magnitude (preserve sign)
+            left_g.move_velocity(sign * rampThreshold);
+            right_g.move_velocity(sign * rampThreshold);
+
+            for (int i = 1; i <= steps; ++i) {
+                int nextVel = static_cast<int>(std::round(rampThreshold + velInc * i));
+                if (nextVel > absVel) nextVel = absVel;
+                left_g.move_velocity(sign * nextVel);
+                right_g.move_velocity(sign * nextVel);
+                delay(stepMs);
+            }
+        }
        
         // Wait until both sides have reached (or exceeded) the target ticks.
         int dbgCounter = 0;
@@ -280,6 +312,9 @@ class DriveTrain {
     //   MS2_TO_IN_S2.
     // - IMU accelerometers are noisy and susceptible to drift; expect this to
     //   need calibration (and possibly filtering) for reliable distance.
+    // Similar to moveHorizontal but uses IMU-based integration for distance
+    // estimation. The same ramping behavior is applied: if |velocity| > 55
+    // start at 55 and ramp up to the target over ~500ms.
     inline void moveHorizontalIMU(double inches, int32_t velocity){
 
     // Use tunable constants from Constants.hpp
@@ -295,9 +330,29 @@ class DriveTrain {
         left_g.tare_position();
         right_g.tare_position();
 
-        // start driving at requested velocity
-        left_g.move_velocity(dir * velocity);
-        right_g.move_velocity(dir * velocity);
+        // start driving at requested velocity, but ramp up if magnitude > threshold
+        const int rampThreshold = 55;
+        int absVel = std::abs(velocity);
+        if (absVel <= rampThreshold) {
+            left_g.move_velocity(dir * velocity);
+            right_g.move_velocity(dir * velocity);
+        } else {
+            // Start at threshold and ramp up to requested velocity
+            const int rampMs = 500;
+            const int stepMs = 20;
+            const int steps = std::max(1, rampMs / stepMs);
+            const double velInc = static_cast<double>(absVel - rampThreshold) / steps;
+
+            left_g.move_velocity(dir * rampThreshold);
+            right_g.move_velocity(dir * rampThreshold);
+            for (int i = 1; i <= steps; ++i) {
+                int nextVel = static_cast<int>(std::round(rampThreshold + velInc * i));
+                if (nextVel > absVel) nextVel = absVel;
+                left_g.move_velocity(dir * nextVel);
+                right_g.move_velocity(dir * nextVel);
+                delay(stepMs);
+            }
+        }
 
     double s = 0.0; // distance in inches
     double v = 0.0; // velocity in inches/s (estimated)

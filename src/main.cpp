@@ -171,7 +171,10 @@ void autonomous() {
 	it.score();
 	delay(2000);
 	dt.moveHorizontal(40,60);
-
+     dt.turnAngle(-45);
+	 ml.down();
+	 dt.moveHorizontal(10);
+	 it.intake();
 	/*dt.turnAngle(90);
 	dt.moveHorizontal(-6.5,50);
 	//it.score();
