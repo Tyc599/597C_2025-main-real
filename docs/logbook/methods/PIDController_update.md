@@ -1,3 +1,20 @@
+## Expanded logbook entry — 2026-02-03
+- Author: (add author)
+- Summary: PID update logging for tuning; keep detailed logs at DEBUG.
+
+Detailed notes:
+- At DEBUG: log dt, setpoint, measurement, error, output, and integral state for tuning.
+- Emit WARN if dt is zero or unusually large, or if integrator windup is detected.
+
+Suggested runtime log line (DEBUG):
+- {"ts":"2026-02-03T15:16:00Z","level":"DEBUG","module":"PID","dt":0.02,"setpoint":1.0,"measurement":0.95,"output":0.12}
+
+Next steps:
+- Add a toggle to enable sampled PID debug logs during bench tuning only.
+
+Change history:
+- 2026-02-03: Appended PID logging guidance.
+
 Method: PIDController::update(dt, setpoint, measurement) -> double
 
 Purpose

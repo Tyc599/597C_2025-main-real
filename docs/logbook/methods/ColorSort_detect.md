@@ -27,3 +27,21 @@ Example usage
 
 Testing
 - Use sample logs to verify detect() returns expected class for known inputs.
+```
+
+## Expanded logbook entry — 2026-02-03
+- Author: (add author)
+- Summary: Log detection events and confidence to help tune thresholds and classifiers.
+
+Detailed notes:
+- Emit INFO or DEBUG for detection events: include raw averaged sensor values and computed confidence.
+- For low confidence or UNKNOWN results, emit DEBUG and consider a sampled summary to avoid spam.
+
+Suggested runtime log line:
+- [2026-02-03 15:12:30] INFO ColorSort::detect {detected:RED, confidence:0.92}
+
+Next steps:
+- Instrument `detect()` during a calibration run to capture representative samples for threshold tuning.
+
+Change history:
+- 2026-02-03: Appended detection logging guidance.

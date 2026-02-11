@@ -1,3 +1,4 @@
+```markdown
 ## Expanded logbook entry — 2026-02-03
 - Author: (add author)
 - Summary: Initialize DriveTrain subsystem; configure motors, encoders, and default control modes.
@@ -42,3 +43,4 @@ Example usage
 
 Testing
 - Verify encoders read zero after reset and that motors accept open-loop commands.
+```

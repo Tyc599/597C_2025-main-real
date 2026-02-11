@@ -1,3 +1,20 @@
+## Expanded logbook entry — 2026-02-03
+- Author: (add author)
+- Summary: Add recommended logging points for color detection and actuation.
+
+Detailed notes:
+- Log detection events with confidence at INFO (or DEBUG if frequent): detected=RED confidence=0.92
+- Log actuator commands and durations at INFO so match logs show when items were routed.
+
+Suggested runtime log line:
+- [2026-02-03 15:09:00] INFO ColorSort: detected=RED confidence=0.92 action=actuate
+
+Next steps:
+- Document detection frequency and recommend sampling/aggregation to avoid log spam.
+
+Change history:
+- 2026-02-03: Appended expanded ColorSort logging guidance.
+
 File: src/systems/ColorSort.hpp
 Purpose: Header for the color sorting subsystem (detects color and actuates mechanisms to sort pieces).
 

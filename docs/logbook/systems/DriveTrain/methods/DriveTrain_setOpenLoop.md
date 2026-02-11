@@ -1,3 +1,4 @@
+```markdown
 ## Expanded logbook entry — 2026-02-03
 - Author: (add author)
 - Summary: Log requested open-loop commands, safety clamping, and any ignored commands due to safety.
@@ -41,3 +42,4 @@ Example usage
 
 Testing
 - Verify motors respond linearly across the range and that clamping works.
+```

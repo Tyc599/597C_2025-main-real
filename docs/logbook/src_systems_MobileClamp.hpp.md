@@ -1,3 +1,20 @@
+## Expanded logbook entry — 2026-02-03
+- Author: (add author)
+- Summary: MobileClamp logging: clamp/unclamp events, limit switch states, and calibration.
+
+Detailed notes:
+- Log `setClamp()` calls with requested state and sensor snapshot at INFO.
+- Log calibration runs with duration and success/failure.
+
+Suggested runtime log line:
+- [2026-02-03 15:11:30] INFO MobileClamp: setClamp {closed:true, limit_switch:true}
+
+Next steps:
+- Add clamp logs to `setClamp()` and calibrate routines; consider WARN for inconsistent limit readings.
+
+Change history:
+- 2026-02-03: Appended MobileClamp logging guidance.
+
 File: src/systems/MobileClamp.hpp
 Purpose: Controls a mobile clamp mechanism for manipulating field elements.
 

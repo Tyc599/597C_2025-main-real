@@ -1,3 +1,10 @@
+## Logging conventions introduced (2026-02-03)
+- This logbook uses a small set of conventions for runtime logs: timestamp, level, module/file, message, and optional key/value pairs.
+- Example plain log: [2026-02-03 15:04:05] INFO src/main.cpp:120 Init complete {imu_ready:true, battery_v:12.4}
+- Example structured log (JSON-lines): {"ts":"2026-02-03T15:04:05Z","level":"INFO","module":"main","msg":"init_complete","imu_ready":true}
+
+See `EXPANDED_ENTRIES.md` and per-file entries for recommended log points.
+
 Logbook index
 
 This folder contains logbook pages for key project files. Each page describes the file's purpose, main APIs/symbols, data shapes, a short recipe to recreate it, important notes, and a minimal list of edge cases.

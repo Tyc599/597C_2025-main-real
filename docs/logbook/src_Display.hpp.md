@@ -1,3 +1,20 @@
+## Expanded logbook entry — 2026-02-03
+- Author: (add author)
+- Summary: Add logging guidance for display operations; keep most display logs at DEBUG level.
+
+Detailed notes:
+- Log `display.init()` success/failure and `showText()` calls (include the text or a truncated preview) at DEBUG.
+- Avoid heavy logging from high-frequency UI updates; aggregate or sample logs instead.
+
+Suggested runtime log line:
+- [2026-02-03 15:06:00] DEBUG Display::showText: line=0 text="Boot OK"
+
+Next steps:
+- Add examples of safe display logging and note which calls should be DEBUG vs INFO.
+
+Change history:
+- 2026-02-03: Appended expanded display logging guidance.
+
 File: src/Display.hpp
 Purpose: Abstraction for on-robot display. Provides simple APIs for drawing text, status bars, and basic widgets.
 

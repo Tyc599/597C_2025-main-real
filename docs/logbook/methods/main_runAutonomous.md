@@ -1,3 +1,20 @@
+## Expanded logbook entry — 2026-02-03
+- Author: (add author)
+- Summary: Log autonomous routine start/stop, chosen routine, and key milestones.
+
+Detailed notes:
+- Emit INFO at autonomous start with routine id/description, and at completion with duration and final state.
+- Log critical failures or sensor timeouts with WARN/ERROR including context.
+
+Suggested runtime log line:
+- [2026-02-03 15:21:00] INFO Autonomous: run start {routine:default}
+
+Next steps:
+- Instrument `runAutonomous()` entry/exit and key high-level actions for post-match analysis.
+
+Change history:
+- 2026-02-03: Appended autonomous logging guidance.
+
 Method: runAutonomous()
 
 Purpose

@@ -25,3 +25,21 @@ Example usage
 
 Testing
 - Simulate piece present sensors to validate transitions.
+```
+
+## Expanded logbook entry — 2026-02-03
+- Author: (add author)
+- Summary: Log load cycle start/complete, sensor triggers, and abort reasons.
+
+Detailed notes:
+- Emit INFO at cycle start and completion with durations and result.
+- Emit WARN when timeouts or jams occur with context.
+
+Suggested runtime log line:
+- [2026-02-03 15:15:10] INFO MatchLoad: loadCycle start {mode:auton}
+
+Next steps:
+- Instrument the state transitions and timeout branches to make post-match debugging easier.
+
+Change history:
+- 2026-02-03: Appended MatchLoad logging guidance.

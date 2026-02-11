@@ -1,3 +1,4 @@
+````markdown
 ## Expanded logbook entry — 2026-02-03
 - Author: (add author)
 - Summary: IMU wrapper logging recommendations: calibration lifecycle, readiness transitions, and sensor health.
@@ -105,3 +106,6 @@ Performance notes:
 - Keep sensor reads non-blocking in the main control loop; read at the configured `sample_rate_hz` in a dedicated task if using an RTOS.
 
 Last-modified: 2026-01-27 (expanded with algorithms, APIs, and examples)
+````
+
+*** End Patch

@@ -1,3 +1,20 @@
+## Expanded logbook entry — 2026-02-03
+- Author: (add author)
+- Summary: Teleop loop logging: mode entry/exit, controller connection events, and critical operator actions.
+
+Detailed notes:
+- Emit INFO when entering teleop and when controller connection state changes; log critical operator-triggered actions (e.g., intake on/off) with timestamps.
+- Keep per-loop logs minimal; consider sampling important events only.
+
+Suggested runtime log line:
+- [2026-02-03 15:22:00] INFO Teleop: enter {controller_connected:true}
+
+Next steps:
+- Add event-based logging in `runOperatorControl()` and avoid per-loop noisy logs.
+
+Change history:
+- 2026-02-03: Appended operator control logging guidance.
+
 Method: runOperatorControl()
 
 Purpose

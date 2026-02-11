@@ -1,3 +1,20 @@
+## Expanded logbook entry — 2026-02-03
+- Author: (add author)
+- Summary: Add PID controller logging guidance for tuning and safety checks.
+
+Detailed notes:
+- Log `PIDController::update()` calls at DEBUG with setpoint, measurement, output, and error for tuning sessions.
+- Emit WARN if integrator windup, dt spikes, or output saturation is detected.
+
+Suggested runtime log line (DEBUG):
+- {"ts":"2026-02-03T15:08:00Z","level":"DEBUG","module":"PID","setpoint":1.0,"measurement":0.95,"output":0.12}
+
+Next steps:
+- Add notes on when to enable DEBUG-level PID logs (e.g., bench tuning only) and how to sample them.
+
+Change history:
+- 2026-02-03: Appended expanded PID logging guidance.
+
 File: src/autonomous/PIDController.hpp
 Purpose: Header-only or small header for a PID controller used by autonomous routines.
 

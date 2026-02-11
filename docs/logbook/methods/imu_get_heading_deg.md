@@ -1,3 +1,20 @@
+## Expanded logbook entry — 2026-02-03
+- Author: (add author)
+- Summary: Log heading reads at INFO with occasional DEBUG samples for tuning.
+
+Detailed notes:
+- Emit INFO-level heading updates at a low rate (e.g., 1 Hz) and DEBUG-level samples at higher rates for calibration runs.
+- When `imu_is_ready()` is false, log a WARN when callers attempt to use heading values.
+
+Suggested runtime log line:
+- [2026-02-03 15:18:00] INFO IMU: heading {deg:12.4}
+
+Next steps:
+- Instrument `imu_get_heading_deg()` and ensure heading logs are rate-limited to avoid flooding serial output.
+
+Change history:
+- 2026-02-03: Appended heading read logging guidance.
+
 Method: imu_get_heading_deg() -> double
 
 Purpose

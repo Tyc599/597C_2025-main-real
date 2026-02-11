@@ -1,3 +1,19 @@
+## Expanded logbook entry — 2026-02-03
+- Author: (add author)
+- Summary: Add logging guidance for data utility routines (normalization, clamping).
+
+Detailed notes:
+- Log function entry/exit for error-prone parsing or lookup operations at DEBUG. Log invalid inputs or clamp events as WARN.
+
+Suggested runtime log line:
+- [2026-02-03 15:08:30] DEBUG data/normal.c: normalize_value raw=1023 -> scaled=1.0
+
+Next steps:
+- Add small examples showing when to instrument utility functions for debugging calibration issues.
+
+Change history:
+- 2026-02-03: Appended expanded logging guidance for data utilities.
+
 File: src/data/normal.c
 Purpose: Data file containing normalization or lookup functions used by sensors or algorithms.
 

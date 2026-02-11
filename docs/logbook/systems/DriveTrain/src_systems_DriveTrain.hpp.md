@@ -1,3 +1,4 @@
+```markdown
 ## Expanded logbook entry — 2026-02-03
 - Author: (add author)
 - Summary: Add DriveTrain logging recommendations for commands, state changes, and safety events.
@@ -39,3 +40,4 @@ Edge cases:
 - Handle stalled motors, sensor timeouts, and small dt.
 
 Last-modified: 2026-01-27
+```

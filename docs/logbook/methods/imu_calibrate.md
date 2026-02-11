@@ -1,3 +1,21 @@
+## Expanded logbook entry — 2026-02-03
+- Author: (add author)
+- Summary: Log calibration lifecycle: start, motions detected abort, completion, duration, and bias values.
+
+Detailed notes:
+- Emit INFO at calibrate start with timeout and thresholds; emit INFO on completion with duration and stored biases.
+- Emit WARN if motion is detected and calibration aborts; include reason and sample snapshot.
+
+Suggested runtime log lines:
+- [2026-02-03 15:17:00] INFO IMU: calibrate_start {timeout_ms:2000}
+- [2026-02-03 15:17:02] INFO IMU: calibrate_complete {duration_ms:1998, success:true}
+
+Next steps:
+- Add calibration logs in `imu_calibrate()` and store bias dump for debugging.
+
+Change history:
+- 2026-02-03: Appended imu calibrate logging guidance.
+
 Method: imu_calibrate(timeout_ms = 2000, motion_threshold_deg_s = 1.5) -> bool
 
 Purpose

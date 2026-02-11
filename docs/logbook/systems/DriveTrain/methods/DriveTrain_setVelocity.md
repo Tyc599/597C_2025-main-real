@@ -1,3 +1,4 @@
+```markdown
 ## Expanded logbook entry — 2026-02-03
 - Author: (add author)
 - Summary: Velocity command logging guidance: setpoint, actuals, and tuning diagnostics.
@@ -41,3 +42,4 @@ Example usage
 
 Testing
 - Run step responses and log actual speed vs. commanded to tune controllers.
+```

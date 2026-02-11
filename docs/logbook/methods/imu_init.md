@@ -1,3 +1,19 @@
+## Expanded logbook entry — 2026-02-03
+- Author: (add author)
+- Summary: Log initialization parameters and success/failure of `imu_init()`.
+
+Detailed notes:
+- Emit INFO on init start with requested sample_rate and flags; emit INFO on successful init and WARN/ERROR if hardware not present.
+
+Suggested runtime log line:
+- [2026-02-03 15:18:30] INFO IMU:init {sample_rate_hz:200, enable_dmp:false}
+
+Next steps:
+- Add init logs and ensure idempotent calls are noted in logs to help debugging double-inits.
+
+Change history:
+- 2026-02-03: Appended IMU init logging guidance.
+
 Method: imu_init(sample_rate_hz = 200, enable_dmp = false)
 
 Purpose

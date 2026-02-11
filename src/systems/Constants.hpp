@@ -11,9 +11,9 @@ namespace Constants {
     static constexpr unsigned char mr_p = 17; // Port of Middle Right motor
     static constexpr unsigned char br_p = 18; // Port of Back Right motor
 
-    static constexpr unsigned char it1_p = 1; // Port of the Elevation mech
+    static constexpr unsigned char it1_p = 14; // Port of the Elevation mech
     static constexpr unsigned char it2_p = 2; // Port of the Elevation mech
-    static constexpr unsigned char it3_p = 14; // Port of the Elevation mech
+    static constexpr unsigned char it3_p = 20; // Port of the Elevation mech
 
 
     static constexpr unsigned char hinge_p = 'G'; // Port for the self destruct

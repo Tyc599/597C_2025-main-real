@@ -1,3 +1,19 @@
+## Expanded logbook entry — 2026-02-03
+- Author: (add author)
+- Summary: Log readiness transitions of the IMU wrapper and reasons for not-ready.
+
+Detailed notes:
+- Emit INFO when `imu_is_ready()` transitions to true, and WARN when callers attempt to use IMU data while not ready.
+
+Suggested runtime log line:
+- [2026-02-03 15:19:00] INFO IMU:is_ready {ready:true}
+
+Next steps:
+- Instrument readiness transitions in code and ensure callers check `imu_is_ready()` before depending on heading.
+
+Change history:
+- 2026-02-03: Appended imu readiness logging guidance.
+
 Method: imu_is_ready() -> bool
 
 Purpose

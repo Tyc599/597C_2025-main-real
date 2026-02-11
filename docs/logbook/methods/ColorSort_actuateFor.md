@@ -25,3 +25,22 @@ Example usage
 
 Testing
 - Verify actuation sequence and timing with a bench test and confirm items are correctly routed.
+```
+
+## Expanded logbook entry — 2026-02-03
+- Author: (add author)
+- Summary: Log actuation start/stop, durations, and any actuator errors for `ColorSort::actuateFor`.
+
+Detailed notes:
+- Emit INFO when actuation starts and completes, include measured duration_ms and success/failure.
+- If a jam or actuator fault occurs, emit ERROR with details (motor current, stall detection).
+
+Suggested runtime log line:
+- [2026-02-03 15:12:00] INFO ColorSort::actuateFor start {color:RED}
+- [2026-02-03 15:12:00] INFO ColorSort::actuateFor complete {duration_ms:150, success:true}
+
+Next steps:
+- Instrument `actuateFor()` to include these logs and consider adding a WATCHDOG for stuck actuators.
+
+Change history:
+- 2026-02-03: Appended actuation logging guidance.

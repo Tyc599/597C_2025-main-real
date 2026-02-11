@@ -1,3 +1,31 @@
+Recreate complexity: medium (requires coordination of hardware init, tasks, and calibration).
+
+## Expanded logbook entry — 2026-02-03
+- Author: (add author)
+- Summary: Documents `src/main.cpp` responsibilities: deterministic initialization, task startup, and mode handoff.
+
+Detailed notes / guidance:
+- Emit a short startup timeline in logs: when platform_init completes, when sensors finish calibration, when background tasks start, and when mode is selected.
+- Log duration for blocking init steps (e.g., IMU calibration time) to diagnose slow boots.
+- Record configuration selections (auton selection, controller connected) at boot.
+
+Suggested runtime log format (plain text):
+- [YYYY-MM-DD HH:MM:SS] [LEVEL] [module/file:line] message {key1:val1, key2:val2}
+	Example: [2026-02-03 15:04:05] INFO src/main.cpp:120 Init complete {imu_ready:true, battery:12.4V}
+
+Suggested structured log (JSON-lines) example:
+{"ts":"2026-02-03T15:04:05Z","level":"INFO","module":"main","msg":"init_complete","imu_ready":true,"battery_v":12.4}
+
+Related files: `docs/logbook/src_Display.hpp.md`, `docs/logbook/methods/main_initHardware.md`, `src/main.cpp`
+
+Next steps / TODOs:
+- Add a small Logger helper (macros for LEVEL + file/line), optionally toggleable via a compile macro.
+- Add a short startup trace in `main()` that emits the timeline events listed above.
+- Consider writing logs to a circular file on persistent storage if available for post-match debugging.
+
+Change history:
+- 2026-02-03: Appended expanded logbook entry and runtime logging suggestions.
+
 File: src/main.cpp
 Purpose: Project entry point. Performs deterministic initialization of hardware and subsystems, starts background tasks (sensors, control loops), and switches into the match mode (autonomous, driver control) based on configuration or controller input.
 

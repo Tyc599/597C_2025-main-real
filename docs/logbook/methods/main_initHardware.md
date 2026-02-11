@@ -1,3 +1,20 @@
+## Expanded logbook entry — 2026-02-03
+- Author: (add author)
+- Summary: Log hardware init milestones, durations, and any failures during `initHardware()`.
+
+Detailed notes:
+- Emit INFO for key milestones: platform_init done, display init done, imu init/calibrate start/complete, drive init done, subsystems init complete.
+- Log durations for any blocking calibration steps to help diagnose slow startups.
+
+Suggested runtime log line:
+- [2026-02-03 15:20:00] INFO main:initHardware {step:display_init, duration_ms:12}
+
+Next steps:
+- Instrument `initHardware()` to emit the timeline events and consider a startup summary log when complete.
+
+Change history:
+- 2026-02-03: Appended main init hardware logging guidance.
+
 Method: initHardware()
 
 Purpose

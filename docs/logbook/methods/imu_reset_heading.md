@@ -1,3 +1,19 @@
+## Expanded logbook entry — 2026-02-03
+- Author: (add author)
+- Summary: Log heading resets including requested new heading and caller.
+
+Detailed notes:
+- Emit INFO on `imu_reset_heading()` calls with `new_heading_deg` and whether smoothing buffers were reset.
+
+Suggested runtime log line:
+- [2026-02-03 15:19:30] INFO IMU:reset_heading {new_deg:0.0, reset_filter:false}
+
+Next steps:
+- Instrument `imu_reset_heading()` and consider adding an option to force filter reset and log which mode was used.
+
+Change history:
+- 2026-02-03: Appended imu reset heading logging guidance.
+
 Method: imu_reset_heading(new_heading_deg = 0.0)
 
 Purpose

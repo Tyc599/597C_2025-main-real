@@ -1,3 +1,20 @@
+## Expanded logbook entry — 2026-02-03
+- Author: (add author)
+- Summary: Intake subsystem logging: spin actions, stops, jam events, and deploy/stow transitions.
+
+Detailed notes:
+- Log `spinPercent()` calls with percent and caller (operator/auton) at INFO.
+- Emit WARN when jam detection triggers with current values and recovery actions.
+
+Suggested runtime log line:
+- [2026-02-03 15:10:30] INFO Intake: spinPercent {percent:80, caller:operator}
+
+Next steps:
+- Add intake logging to `intake.spinPercent()` and `intake.stop()` and document thresholds.
+
+Change history:
+- 2026-02-03: Appended Intake-specific logging guidance.
+
 File: src/systems/Intake.hpp
 Purpose: Controls the intake mechanism: rollers, actuators, sensors.
 

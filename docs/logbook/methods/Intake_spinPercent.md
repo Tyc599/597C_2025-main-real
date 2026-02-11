@@ -1,3 +1,19 @@
+## Expanded logbook entry — 2026-02-03
+- Author: (add author)
+- Summary: Instrument intake spin commands and jam detection events for troubleshooting.
+
+Detailed notes:
+- Emit INFO when `spinPercent()` is called with the percent and caller; emit WARN when jam detection triggers with current and duration.
+
+Suggested runtime log line:
+- [2026-02-03 15:14:30] INFO Intake::spinPercent {percent:80, caller:operator}
+
+Next steps:
+- Add logs to spinPercent and to any jam-recovery handlers.
+
+Change history:
+- 2026-02-03: Appended intake spin logging guidance.
+
 Method: Intake::spinPercent(percent)
 
 Purpose
