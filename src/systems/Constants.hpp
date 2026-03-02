@@ -4,12 +4,12 @@
 #include <cstdint>
 #include <stdint.h>
 namespace Constants {
-    const int8_t fl_p = 11; // Port of Front Left motor
-    static constexpr unsigned char ml_p = 12; // Port of Middle Left motor
-    static constexpr unsigned char bl_p = 13; // Port of Back Left motor
-    static constexpr unsigned char fr_p = 16; // Port of Front Right motor
-    static constexpr unsigned char mr_p = 17; // Port of Middle Right motor
-    static constexpr unsigned char br_p = 18; // Port of Back Right motor
+    const int8_t fl_p = 20; // Port of Front Left motor
+    static constexpr unsigned char ml_p = 9; // Port of Middle Left motor
+    static constexpr unsigned char bl_p = 10; // Port of Back Left motor
+    static constexpr unsigned char fr_p = 11; // Port of Front Right motor
+    static constexpr unsigned char mr_p = 1; // Port of Middle Right motor
+    static constexpr unsigned char br_p = 2; // Port of Back Right motor
 
     static constexpr unsigned char it1_p = 14; // Port of the Elevation mech
     static constexpr unsigned char it2_p = 2; // Port of the Elevation mech
@@ -44,7 +44,7 @@ namespace Constants {
     static const double wheelCircumference = 3.25 * pi;
     static const double distancePerTick = wheelCircumference/(encoder_ticks_per_rev*gearRatio);
     /// @brief 
-    static const int maxRPM = 100;
+    static const int maxRPM = 600;
     static const int maxVolt = 127;
     static const int delayMove = 20;
     static const int offsetInches = 11;

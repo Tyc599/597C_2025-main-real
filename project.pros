@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "597C test IMU",
+    "project_name": "597C test 2",
     "target": "v5",
     "templates": {
       "kernel": {

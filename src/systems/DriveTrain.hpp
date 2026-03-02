@@ -31,8 +31,8 @@ class DriveTrain {
     Motor btr_mtr = Motor(mr_p);
     Motor br_mtr = Motor(br_p);
 
-    MotorGroup left_g  = MotorGroup({-fl_p, ml_p, -bl_p});
-    MotorGroup right_g = MotorGroup({fr_p, -mr_p, br_p});
+    MotorGroup left_g  = MotorGroup({fl_p, -ml_p, bl_p});
+    MotorGroup right_g = MotorGroup({-fr_p, mr_p, -br_p});
 
     PIDController pidController = PIDController(kP, kI, kD, integral_threshold); 
     // When true, ignore tele-op drive inputs and hold wheel positions.
@@ -248,36 +248,14 @@ class DriveTrain {
         left_g.tare_position();
         right_g.tare_position();
 
-        // If the requested velocity is small (<= ramp threshold) just command it
-        const int rampThreshold = 55; // starting velocity for ramping
-        int sign = (velocity >= 0) ? 1 : -1;
-        int absVel = std::abs(velocity);
-
-        // Initiate the position move using the requested velocity (so the
-        // motor controllers know the target). We'll override the runtime
-        // commanded velocity below if we need to ramp.
+        // Initiate the position move using the requested velocity and
+        // command the requested velocity immediately (no ramping).
         left_g.move_relative(ticksToMove, velocity);
         right_g.move_relative(ticksToMove, velocity);
 
-        if (absVel > rampThreshold) {
-            // Ramp from rampThreshold up to absVel over rampMs milliseconds
-            const int rampMs = 500; // total ramp duration in ms
-            const int stepMs = 20;  // update step in ms (matches typical control loop)
-            const int steps = std::max(1, rampMs / stepMs);
-            const double velInc = static_cast<double>(absVel - rampThreshold) / steps;
-
-            // Start from the threshold magnitude (preserve sign)
-            left_g.move_velocity(sign * rampThreshold);
-            right_g.move_velocity(sign * rampThreshold);
-
-            for (int i = 1; i <= steps; ++i) {
-                int nextVel = static_cast<int>(std::round(rampThreshold + velInc * i));
-                if (nextVel > absVel) nextVel = absVel;
-                left_g.move_velocity(sign * nextVel);
-                right_g.move_velocity(sign * nextVel);
-                delay(stepMs);
-            }
-        }
+        // Immediately command the requested velocity to avoid any ramp-up.
+        left_g.move_velocity(velocity);
+        right_g.move_velocity(velocity);
        
         // Wait until both sides have reached (or exceeded) the target ticks.
         int dbgCounter = 0;
@@ -330,29 +308,9 @@ class DriveTrain {
         left_g.tare_position();
         right_g.tare_position();
 
-        // start driving at requested velocity, but ramp up if magnitude > threshold
-        const int rampThreshold = 55;
-        int absVel = std::abs(velocity);
-        if (absVel <= rampThreshold) {
-            left_g.move_velocity(dir * velocity);
-            right_g.move_velocity(dir * velocity);
-        } else {
-            // Start at threshold and ramp up to requested velocity
-            const int rampMs = 500;
-            const int stepMs = 20;
-            const int steps = std::max(1, rampMs / stepMs);
-            const double velInc = static_cast<double>(absVel - rampThreshold) / steps;
-
-            left_g.move_velocity(dir * rampThreshold);
-            right_g.move_velocity(dir * rampThreshold);
-            for (int i = 1; i <= steps; ++i) {
-                int nextVel = static_cast<int>(std::round(rampThreshold + velInc * i));
-                if (nextVel > absVel) nextVel = absVel;
-                left_g.move_velocity(dir * nextVel);
-                right_g.move_velocity(dir * nextVel);
-                delay(stepMs);
-            }
-        }
+        // Command the requested velocity immediately (no ramping behavior).
+        left_g.move_velocity(dir * velocity);
+        right_g.move_velocity(dir * velocity);
 
     double s = 0.0; // distance in inches
     double v = 0.0; // velocity in inches/s (estimated)
